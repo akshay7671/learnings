@@ -9,10 +9,10 @@ import java.util.Arrays;
 
 @RestController
 @RequestMapping("/arrays")
-public class ArraysDataStructure {
+class ArraysDataStructure {
 
-    @RequestMapping("/")
-    public String index() {
+    @GetMapping("/hello")
+    public String hello() {
         return "Greetings from Spring Boot!";
     }
 
