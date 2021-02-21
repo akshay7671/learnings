@@ -13,7 +13,7 @@ addons:
         secure: "0439543f5777663d7fa0c8ea532de59709ab48c0"
 
 script:
-  - mvn clean install sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=0439543f5777663d7fa0c8ea532de59709ab48c0 -Dsonar.organization=akshay7671
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=0439543f5777663d7fa0c8ea532de59709ab48c0 -Dsonar.organization=akshay7671
 
 cache:
   directories:
