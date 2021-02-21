@@ -1,19 +1,19 @@
 sudo: false
 language: java
 jdk: openjdk11
-#
-#env:
-#  global:
-#    - SONAR_TOKEN: "c5a2881a7796315d6c12ad4c5e63d698f712b7ce"
+
+env:
+  global:
+   - SONAR_TOKEN: "0439543f5777663d7fa0c8ea532de59709ab48c0"
 
 addons:
     sonarcloud:
       organization: "akshay7671"
       token:
-        secure: "0439543f5777663d7fa0c8ea532de59709ab48c0"
+        secure: $SONAR_TOKEN
 
 script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=0439543f5777663d7fa0c8ea532de59709ab48c0 -Dsonar.organization=akshay7671
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
 
 cache:
   directories:
