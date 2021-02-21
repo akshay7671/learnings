@@ -1,0 +1,21 @@
+sudo: false
+language: java
+jdk: openjdk11
+
+env:
+  global:
+    - SONAR_TOKEN: "c5a2881a7796315d6c12ad4c5e63d698f712b7ce"
+
+addons:
+    sonarcloud:
+      organization: "akshay7671"
+      token:
+        secure: $SONAR_TOKEN
+
+script:
+  - mvn clean install sonar:sonar
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'

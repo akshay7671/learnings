@@ -16,10 +16,11 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<project.test.result.directory>${project.build.directory}/test-results</project.test.result.directory>
-		<sonar.host.url>http://localhost:9000</sonar.host.url>
-		<sonar.scm.provider>git</sonar.scm.provider>
-		<sonar.login>admin</sonar.login>
-		<sonar.password>akshay</sonar.password>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+<!--		<sonar.scm.provider>git</sonar.scm.provider>-->
+		<sonar.login>c5a2881a7796315d6c12ad4c5e63d698f712b7ce</sonar.login>
+		<sonar.organization>akshay7671</sonar.organization>
+<!--		<sonar.password>akshay</sonar.password>-->
 		<sonar.java.codeCoveragePlugin>jacoco</sonar.java.codeCoveragePlugin>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.test.result.directory}/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.exclusions>
