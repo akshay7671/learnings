@@ -9,6 +9,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -83,4 +85,53 @@ class MathApplicationTest {
     }
 
 
+    @Test
+    void invocation() {
+        when(calculatorService.subtract(10, 20)).thenAnswer((i) -> {
+            System.out.println(Arrays.toString(i.getArguments()));
+            return -10.0;
+        });
+        assertEquals(-10.0, mathApplication.subtract(10.0, 20.0));
+        verify(calculatorService, times(1)).subtract(10.0, 20);
+    }
+
+
+    @Test
+    void divideUsingSpy() {
+        MathApplication mathApplication = new MathApplication();
+        mathApplication.setCalculatorService(spy(new Calculator()));
+
+        assertThrows(UnsupportedOperationException.class, () -> mathApplication.subtract(10.0, 20.0), "Method not implemented yet!\"");
+    }
+
+
+    @Test
+    void divideAfterReset() {
+        when(calculatorService.divide(10, 20)).thenReturn(0.0);
+        reset(calculatorService);
+        assertEquals(0.0, calculatorService.divide(10.0, 20.0));
+    }
+
+
+    class Calculator implements CalculatorService {
+        @Override
+        public double add(double input1, double input2) {
+            return input1 + input2;
+        }
+
+        @Override
+        public double subtract(double input1, double input2) {
+            throw new UnsupportedOperationException("Method not implemented yet!");
+        }
+
+        @Override
+        public double multiply(double input1, double input2) {
+            throw new UnsupportedOperationException("Method not implemented yet!");
+        }
+
+        @Override
+        public double divide(double input1, double input2) {
+            throw new UnsupportedOperationException("Method not implemented yet!");
+        }
+    }
 }
