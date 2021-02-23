@@ -20,7 +20,7 @@ class ContactManagerTest {
     private ContactManager contactManager = null;
 
     private static List<String> phoneNumberList() {
-        return Arrays.asList("0123456789", "1234567890");
+        return Arrays.asList("0123456789", "0123456789");
     }
 
     @BeforeAll
@@ -124,7 +124,7 @@ class ContactManagerTest {
 
         @ParameterizedTest
         @DisplayName("ParameterizedTest- valueSource - testPhoneNumber while createContact")
-        @ValueSource(strings = {"0123456789", "1234567890"})
+        @ValueSource(strings = {"0123456789", "0123456789"})
         void shouldCreateContactParameterizedTest(String phoneNumber) throws ContactValidationFailedException {
             contactManager.addContact("Akshay", "Jadhav", phoneNumber);
             assertFalse(contactManager.getAllContacts().isEmpty());
