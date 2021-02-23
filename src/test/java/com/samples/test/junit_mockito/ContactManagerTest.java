@@ -68,6 +68,17 @@ class ContactManagerTest {
         assertEquals(1, contactManager.getAllContacts().size());
     }
 
+    @Test
+    @DisplayName("Assumption feature test - DEV")
+    void shouldCreateContactOnAssumption() throws ContactValidationFailedException {
+        Assumptions.assumeTrue("DEV".equals(System.getProperty("ENV")));
+        contactManager.addContact("Akshay", "Jadhav", "0959590111");
+        assertFalse(contactManager.getAllContacts().isEmpty());
+        assertEquals(1, contactManager.getAllContacts().size());
+    }
+
+
+
 
 
     @AfterEach
