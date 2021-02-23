@@ -3,6 +3,8 @@ package com.samples.test.junit_mockito;
 import com.samples.test.junit_mockito.exception.ContactValidationFailedException;
 import com.samples.test.junit_mockito.service.ContactManager;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -47,6 +49,26 @@ class ContactManagerTest {
     void shouldThrowRuntimeWhenPhNumIsNull() {
         assertThrows(ContactValidationFailedException.class, () -> contactManager.addContact("Akshay", "Jadhav", null));
     }
+
+
+    @Test
+    @DisplayName("Should create contact on mac only")
+    @EnabledOnOs(value = OS.MAC)
+    void shouldCreateContactOnlyOnMac() throws ContactValidationFailedException {
+        contactManager.addContact("Akshay", "Jadhav", "0959590111");
+        assertFalse(contactManager.getAllContacts().isEmpty());
+        assertEquals(1, contactManager.getAllContacts().size());
+    }
+    @Test
+    @DisplayName("Should create contact on windows only")
+    @EnabledOnOs(value = OS.WINDOWS)
+    void shouldCreateContactOnlyOnWindows() throws ContactValidationFailedException {
+        contactManager.addContact("Akshay", "Jadhav", "0959590111");
+        assertFalse(contactManager.getAllContacts().isEmpty());
+        assertEquals(1, contactManager.getAllContacts().size());
+    }
+
+
 
     @AfterEach
     void tearDown() {
