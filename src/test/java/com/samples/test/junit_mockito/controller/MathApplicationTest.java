@@ -3,10 +3,7 @@ package com.samples.test.junit_mockito.controller;
 import com.samples.test.junit_mockito.service.CalculatorService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InOrder;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
@@ -55,6 +52,15 @@ class MathApplicationTest {
         when(calculatorService.subtract(10, 20)).thenReturn(-10.0);
         assertEquals(-10.0, mathApplication.subtract(10.0, 20.0));
         verify(calculatorService, never()).subtract(20, 20);
+    }
+
+
+
+    @Test
+    void subtractWithTimeouts() {
+        when(calculatorService.subtract(10, 20)).thenReturn(-10.0);
+        assertEquals(-10.0, mathApplication.subtract(10.0, 20.0));
+        verify(calculatorService, timeout(10).times(1)).subtract(10, 20);
     }
 
     @Test
@@ -110,6 +116,18 @@ class MathApplicationTest {
         when(calculatorService.divide(10, 20)).thenReturn(0.0);
         reset(calculatorService);
         assertEquals(0.0, calculatorService.divide(10.0, 20.0));
+    }
+
+    @Test
+    void divideUsingBehaviouralStyle() {
+        //given
+        BDDMockito.given(calculatorService.divide(10, 20)).willReturn(0.0);
+
+        //when
+        double result = calculatorService.divide(10, 20);
+
+        //then
+        assertEquals(0.0, result);
     }
 
 
