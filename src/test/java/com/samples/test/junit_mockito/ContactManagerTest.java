@@ -78,6 +78,15 @@ class ContactManagerTest {
     }
 
 
+    @RepeatedTest(value = 2, name = "createContact {currentRepetition} of {totalRepetitions} ")
+    @DisplayName("RepeatedTest - createContact")
+    void shouldCreateContactRepeatedly() throws ContactValidationFailedException {
+        contactManager.addContact("Akshay", "Jadhav", "0959590111");
+        assertFalse(contactManager.getAllContacts().isEmpty());
+        assertEquals(1, contactManager.getAllContacts().size());
+    }
+
+
 
 
 
