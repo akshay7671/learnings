@@ -5,6 +5,13 @@ import com.samples.test.junit_mockito.service.ContactManager;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,8 +19,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class ContactManagerTest {
     private ContactManager contactManager = null;
 
+    private static List<String> phoneNumberList() {
+        return Arrays.asList("0123456789", "1234567890");
+    }
+
     @BeforeAll
-     void initialSetup() {
+    void initialSetup() {
         System.out.println("This method is executed before all");
     }
 
@@ -50,7 +61,6 @@ class ContactManagerTest {
         assertThrows(ContactValidationFailedException.class, () -> contactManager.addContact("Akshay", "Jadhav", null));
     }
 
-
     @Test
     @DisplayName("Should create contact on mac only")
     @EnabledOnOs(value = OS.MAC)
@@ -59,6 +69,7 @@ class ContactManagerTest {
         assertFalse(contactManager.getAllContacts().isEmpty());
         assertEquals(1, contactManager.getAllContacts().size());
     }
+
     @Test
     @DisplayName("Should create contact on windows only")
     @EnabledOnOs(value = OS.WINDOWS)
@@ -77,7 +88,6 @@ class ContactManagerTest {
         assertEquals(1, contactManager.getAllContacts().size());
     }
 
-
     @RepeatedTest(value = 2, name = "createContact {currentRepetition} of {totalRepetitions} ")
     @DisplayName("RepeatedTest - createContact")
     void shouldCreateContactRepeatedly() throws ContactValidationFailedException {
@@ -86,8 +96,32 @@ class ContactManagerTest {
         assertEquals(1, contactManager.getAllContacts().size());
     }
 
+    @ParameterizedTest
+    @DisplayName("ParameterizedTest- valueSource - testPhoneNumber while createContact")
+    @ValueSource(strings = {"0123456789", "1234567890"})
+    void shouldCreateContactParameterizedTest(String phoneNumber) throws ContactValidationFailedException {
+        contactManager.addContact("Akshay", "Jadhav", phoneNumber);
+        assertFalse(contactManager.getAllContacts().isEmpty());
+        assertEquals(1, contactManager.getAllContacts().size());
+    }
 
+    @ParameterizedTest
+    @DisplayName("ParameterizedTest - methodSource - testPhoneNumber while createContact")
+    @MethodSource("phoneNumberList")
+    void shouldCreateContactParameterizedTestMethodSource(String phoneNumber) throws ContactValidationFailedException {
+        contactManager.addContact("Akshay", "Jadhav", phoneNumber);
+        assertFalse(contactManager.getAllContacts().isEmpty());
+        assertEquals(1, contactManager.getAllContacts().size());
+    }
 
+    @ParameterizedTest
+    @DisplayName("ParameterizedTest- csvSource - testPhoneNumber while createContact")
+    @CsvSource({"0123456789", "0123456789"})
+    void shouldCreateContactParameterizedTestCSVSource(String phoneNumber) throws ContactValidationFailedException {
+        contactManager.addContact("Akshay", "Jadhav", phoneNumber);
+        assertFalse(contactManager.getAllContacts().isEmpty());
+        assertEquals(1, contactManager.getAllContacts().size());
+    }
 
 
     @AfterEach
