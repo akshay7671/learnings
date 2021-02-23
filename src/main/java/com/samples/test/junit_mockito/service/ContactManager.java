@@ -1,4 +1,7 @@
-package com.samples.test.junit_mockito;
+package com.samples.test.junit_mockito.service;
+
+import com.samples.test.junit_mockito.exception.ContactValidationFailedException;
+import com.samples.test.junit_mockito.model.Contact;
 
 import java.util.Collection;
 import java.util.Map;
@@ -8,7 +11,7 @@ public class ContactManager {
 
     Map<String, Contact> contactList = new ConcurrentHashMap<String, Contact>();
 
-    public void addContact(String firstName, String lastName, String phoneNumber) {
+    public void addContact(String firstName, String lastName, String phoneNumber) throws ContactValidationFailedException {
         Contact contact = new Contact(firstName, lastName, phoneNumber);
         validateContact(contact);
         checkIfContactAlreadyExist(contact);
@@ -19,12 +22,12 @@ public class ContactManager {
         return contactList.values();
     }
 
-    private void checkIfContactAlreadyExist(Contact contact) {
+    private void checkIfContactAlreadyExist(Contact contact) throws ContactValidationFailedException {
         if (contactList.containsKey(generateKey(contact)))
-            throw new RuntimeException("Contact Already Exists");
+            throw new ContactValidationFailedException("Contact Already Exists");
     }
 
-    private void validateContact(Contact contact) {
+    private void validateContact(Contact contact) throws ContactValidationFailedException {
         contact.validateFirstName();
         contact.validateLastName();
         contact.validatePhoneNumber();
