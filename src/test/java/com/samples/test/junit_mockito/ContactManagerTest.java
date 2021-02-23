@@ -88,21 +88,15 @@ class ContactManagerTest {
         assertEquals(1, contactManager.getAllContacts().size());
     }
 
-    @RepeatedTest(value = 2, name = "createContact {currentRepetition} of {totalRepetitions} ")
-    @DisplayName("RepeatedTest - createContact")
-    void shouldCreateContactRepeatedly() throws ContactValidationFailedException {
-        contactManager.addContact("Akshay", "Jadhav", "0959590111");
-        assertFalse(contactManager.getAllContacts().isEmpty());
-        assertEquals(1, contactManager.getAllContacts().size());
+    @AfterEach
+    void tearDown() {
+        contactManager = null;
+        System.out.println("contact manager cleared");
     }
 
-    @ParameterizedTest
-    @DisplayName("ParameterizedTest- valueSource - testPhoneNumber while createContact")
-    @ValueSource(strings = {"0123456789", "1234567890"})
-    void shouldCreateContactParameterizedTest(String phoneNumber) throws ContactValidationFailedException {
-        contactManager.addContact("Akshay", "Jadhav", phoneNumber);
-        assertFalse(contactManager.getAllContacts().isEmpty());
-        assertEquals(1, contactManager.getAllContacts().size());
+    @AfterAll
+    void clearAllResources() {
+        System.out.println("This method is executed after all");
     }
 
     @ParameterizedTest
@@ -114,24 +108,37 @@ class ContactManagerTest {
         assertEquals(1, contactManager.getAllContacts().size());
     }
 
-    @ParameterizedTest
-    @DisplayName("ParameterizedTest- csvSource - testPhoneNumber while createContact")
-    @CsvSource({"0123456789", "0123456789"})
-    void shouldCreateContactParameterizedTestCSVSource(String phoneNumber) throws ContactValidationFailedException {
-        contactManager.addContact("Akshay", "Jadhav", phoneNumber);
-        assertFalse(contactManager.getAllContacts().isEmpty());
-        assertEquals(1, contactManager.getAllContacts().size());
+    @Nested
+    class RepeatedTestGroup {
+        @RepeatedTest(value = 2, name = "createContact {currentRepetition} of {totalRepetitions} ")
+        @DisplayName("RepeatedTest - createContact")
+        void shouldCreateContactRepeatedly() throws ContactValidationFailedException {
+            contactManager.addContact("Akshay", "Jadhav", "0959590111");
+            assertFalse(contactManager.getAllContacts().isEmpty());
+            assertEquals(1, contactManager.getAllContacts().size());
+        }
     }
 
+    @Nested
+    class ParameterizedTestGroup {
 
-    @AfterEach
-    void tearDown() {
-        contactManager = null;
-        System.out.println("contact manager cleared");
-    }
+        @ParameterizedTest
+        @DisplayName("ParameterizedTest- valueSource - testPhoneNumber while createContact")
+        @ValueSource(strings = {"0123456789", "1234567890"})
+        void shouldCreateContactParameterizedTest(String phoneNumber) throws ContactValidationFailedException {
+            contactManager.addContact("Akshay", "Jadhav", phoneNumber);
+            assertFalse(contactManager.getAllContacts().isEmpty());
+            assertEquals(1, contactManager.getAllContacts().size());
+        }
 
-    @AfterAll
-    void clearAllResources() {
-        System.out.println("This method is executed after all");
+
+        @ParameterizedTest
+        @DisplayName("ParameterizedTest- csvSource - testPhoneNumber while createContact")
+        @CsvSource({"0123456789", "0123456789"})
+        void shouldCreateContactParameterizedTestCSVSource(String phoneNumber) throws ContactValidationFailedException {
+            contactManager.addContact("Akshay", "Jadhav", phoneNumber);
+            assertFalse(contactManager.getAllContacts().isEmpty());
+            assertEquals(1, contactManager.getAllContacts().size());
+        }
     }
 }
